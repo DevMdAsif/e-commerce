@@ -1,12 +1,8 @@
 import app from "./app.js";
+import connectDB from "./config/connectDB.js";
+import { port } from "./serect.js";
 
-const port = process.env.SERVER_PORT;
-
-// connect to MongoDB
-
-const MONGODB_URI =
-    process.env.MONGODBATLAS_URL || "mongodb://localhost:27017/e-commerce";
-
-app.listen(port, () => {
+app.listen(port, async () => {
     console.log(`Server is running on http://localhost:${port}`);
+    await connectDB();
 });
