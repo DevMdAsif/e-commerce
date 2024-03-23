@@ -10,11 +10,11 @@ const users = [
         email: "mdasifullah@gmail.com",
     },
 ];
-const getUser = (req, res) => {
+const getUser = (req, res, next) => {
     try {
         res.status(200).json({ users: users });
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        next(error);
     }
 };
 
