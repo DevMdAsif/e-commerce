@@ -1,0 +1,15 @@
+/.vscode
+/node_modules
+./dist
+./coverage
+./build
+./build/*
+./dist/*
+./coverage/*
+./node_modules/*
+./.vscode/*
+./.vscode
+*.env
+.env
+.env*
+
