@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { hashSync, compareSync } from "bcrypt";
+import { hashSync } from "bcrypt";
 import { defaultImage } from "../serect.js";
 
 const userSchema = new Schema(
@@ -32,6 +32,13 @@ const userSchema = new Schema(
         image: {
             type: String,
             default: defaultImage,
+        },
+        address: {
+            type: String,
+            required: [true, "Address is required"],
+            trim: true,
+            minlangth: [10, "Address must be at least 10 characters"],
+            maxlength: [50, "Address must be at most 50 characters"],
         },
         isAdmin: {
             type: Boolean,
