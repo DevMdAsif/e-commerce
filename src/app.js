@@ -6,6 +6,7 @@ import { rateLimit } from "express-rate-limit";
 import xss from "xss";
 import userRouter from "./routes/userRouter.js";
 import createError from "http-errors";
+import seedRouter from "./routes/seedRouter.js";
 
 const app = express();
 
@@ -38,6 +39,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/users", userRouter);
+app.use("/api/seed", seedRouter);
 
 // client error handling middleware
 
