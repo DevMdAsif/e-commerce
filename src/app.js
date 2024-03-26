@@ -7,6 +7,7 @@ import xss from "xss";
 import userRouter from "./routes/userRouter.js";
 import createError from "http-errors";
 import seedRouter from "./routes/seedRouter.js";
+import { errorResponse } from "./controllers/responseController.js";
 
 const app = express();
 
@@ -50,10 +51,7 @@ app.use((req, res, next) => {
 //all error handling middleware
 
 app.use((err, req, res, next) => {
-    return res.status(err.status || 500).json({
-        success: false,
-        message: err.message,
-    });
+    return errorResponse(res, { statusCode: err.status, message: err.message });
 });
 
 export default app;
