@@ -1,7 +1,7 @@
 import User from "../models/userModel.js";
 import createError from "http-errors";
 import { successResponse } from "./responseController.js";
-import mongoose from "mongoose";
+import { findWithId } from "../services/findWithId.js";
 
 const getUsers = async (req, res, next) => {
     try {
@@ -52,10 +52,7 @@ const getUser = async (req, res, next) => {
     try {
         const id = req.params.id;
         const options = { password: 0 };
-
-        const user = await User.findById(id, options);
-
-        if (!user) throw createError(404, "User not found");
+        const user = await findWithId(id, options);
 
         return successResponse(res, {
             statusCode: 200,
@@ -63,10 +60,6 @@ const getUser = async (req, res, next) => {
             payload: user,
         });
     } catch (error) {
-        if (error instanceof mongoose.Error) {
-            next(createError(400, "Invalid user id"));
-            return;
-        }
         next(error);
     }
 };
