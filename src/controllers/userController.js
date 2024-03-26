@@ -1,8 +1,9 @@
 import User from "../models/userModel.js";
 import createError from "http-errors";
 import { successResponse } from "./responseController.js";
+import mongoose from "mongoose";
 
-const getUser = async (req, res, next) => {
+const getUsers = async (req, res, next) => {
     try {
         const search = req.query.search || "";
         const page = req.query.page || 1;
@@ -30,7 +31,7 @@ const getUser = async (req, res, next) => {
 
         return successResponse(res, {
             statusCode: 200,
-            message: "user was returned successfully",
+            message: "users was returned successfully",
             payload: {
                 users,
                 paginagtion: {
@@ -47,4 +48,27 @@ const getUser = async (req, res, next) => {
     }
 };
 
-export { getUser };
+const getUser = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const options = { password: 0 };
+
+        const user = await User.findById(id, options);
+
+        if (!user) throw createError(404, "User not found");
+
+        return successResponse(res, {
+            statusCode: 200,
+            message: "user was returned successfully",
+            payload: user,
+        });
+    } catch (error) {
+        if (error instanceof mongoose.Error) {
+            next(createError(400, "Invalid user id"));
+            return;
+        }
+        next(error);
+    }
+};
+
+export { getUsers, getUser };
