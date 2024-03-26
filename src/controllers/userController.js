@@ -3,6 +3,8 @@ import createError from "http-errors";
 import { successResponse } from "./responseController.js";
 import { findWithId } from "../services/findWithId.js";
 
+import deleteImage from "../helper/deleteImage.js";
+
 const getUsers = async (req, res, next) => {
     try {
         const search = req.query.search || "";
@@ -52,7 +54,7 @@ const getUser = async (req, res, next) => {
     try {
         const id = req.params.id;
         const options = { password: 0 };
-        const user = await findWithId(id, options);
+        const user = await findWithId(User, id, options);
 
         return successResponse(res, {
             statusCode: 200,
@@ -63,5 +65,24 @@ const getUser = async (req, res, next) => {
         next(error);
     }
 };
+const deleteUser = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const options = { password: 0 };
+        const user = await findWithId(User, id, options);
+        const userImagePath = user.image;
 
-export { getUsers, getUser };
+        // delete user image
+        deleteImage(userImagePath);
+
+        await User.findByIdAndDelete({ _id: id }, { isAdmin: false });
+        return successResponse(res, {
+            statusCode: 200,
+            message: "user was deleted successfully",
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export { getUsers, getUser, deleteUser };
