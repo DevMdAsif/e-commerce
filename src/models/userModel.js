@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose";
-import { genSaltSync, hashSync } from "bcrypt";
+import bcrypt from "bcryptjs";
 import { defaultImage } from "../serect.js";
 
 const userSchema = new Schema(
@@ -27,7 +27,7 @@ const userSchema = new Schema(
             type: String,
             required: [true, "Password is required"],
             minlength: [8, "Password must be at least 8 characters"],
-            set: (value) => hashSync(value, genSaltSync(10)),
+            set: (value) => bcrypt.hashSync(value, genSaltSync(10)),
         },
         image: {
             type: String,

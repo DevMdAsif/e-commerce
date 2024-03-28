@@ -2,8 +2,12 @@ import User from "../models/userModel.js";
 import createError from "http-errors";
 import { successResponse } from "./responseController.js";
 import { findWithId } from "../services/findWithId.js";
-
 import deleteImage from "../helper/deleteImage.js";
+import createJWT from "../helper/createJWT.js";
+import { clientUrl, jwt_Activation_Key } from "../serect.js";
+import emailWithNodeMailer from "../helper/email.js";
+
+// import { json } from "body-parser";
 
 const getUsers = async (req, res, next) => {
     try {
@@ -85,4 +89,48 @@ const deleteUser = async (req, res, next) => {
     }
 };
 
-export { getUsers, getUser, deleteUser };
+const processRegister = async (req, res, next) => {
+    try {
+        const { name, email, password, phone, address } = req.body;
+
+        const NewUser = {
+            name,
+            email,
+            password,
+            phone,
+            address,
+        };
+
+        const existEmail = await User.exists({ email: email });
+        if (existEmail) {
+            throw createError(409, "Email already exist, Please login");
+        }
+
+        const token = createJWT({ NewUser }, jwt_Activation_Key, "10m");
+
+        const EmailData = {
+            email,
+            subject: "Account Activation Link",
+            html: `<h2>hello ${name}</h2>
+            <p> Please click here to <a href='${clientUrl}/api/users/activate/${token}' target='_blank'>activate your account</a></p>`,
+        };
+
+        try {
+            emailWithNodeMailer(EmailData);
+        } catch (error) {
+            next(
+                createError(500, "filed to send email, Please try again later")
+            );
+        }
+
+        return successResponse(res, {
+            statusCode: 200,
+            message: `please go to your email ${email} for compleate registration process`,
+            payload: { token },
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export { getUsers, getUser, deleteUser, processRegister };
