@@ -27,7 +27,7 @@ const userSchema = new Schema(
             type: String,
             required: [true, "Password is required"],
             minlength: [8, "Password must be at least 8 characters"],
-            set: (value) => bcrypt.hashSync(value, genSaltSync(10)),
+            set: (value) => bcrypt.hashSync(value, bcrypt.genSaltSync(10)),
         },
         image: {
             type: String,
@@ -37,6 +37,10 @@ const userSchema = new Schema(
             type: String,
             required: [true, "Address is required"],
             trim: true,
+        },
+        phone: {
+            type: String,
+            required: [true, "Phone is required"],
         },
         isAdmin: {
             type: Boolean,
