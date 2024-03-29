@@ -6,8 +6,7 @@ import deleteImage from "../helper/deleteImage.js";
 import createJWT from "../helper/createJWT.js";
 import { clientUrl, jwt_Activation_Key } from "../serect.js";
 import emailWithNodeMailer from "../helper/email.js";
-
-// import { json } from "body-parser";
+import jwt from "jsonwebtoken";
 
 const getUsers = async (req, res, next) => {
     try {
@@ -133,4 +132,29 @@ const processRegister = async (req, res, next) => {
     }
 };
 
-export { getUsers, getUser, deleteUser, processRegister };
+const activateAccount = async (req, res, next) => {
+    try {
+        const token = req.body.token;
+
+        if (!token) throw createError(400, "invalid token");
+
+        try {
+            const decoded = jwt.verify(token, jwt_Activation_Key);
+            console.log("decoded user", decoded);
+
+            await User.create(decoded.NewUser);
+
+            return successResponse(res, {
+                statusCode: 200,
+                message: "user was created successfully",
+            });
+        } catch (err) {
+            console.log(err);
+            next(createError(400, err.message));
+        }
+    } catch (error) {
+        next(error);
+    }
+};
+
+export { getUsers, getUser, deleteUser, processRegister, activateAccount };
