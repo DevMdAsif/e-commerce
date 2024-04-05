@@ -6,6 +6,7 @@ import {
     getUser,
     getUsers,
     processRegister,
+    updateUserById,
 } from "../controllers/userController.js";
 import validateUserRegistration from "../validators/auth.js";
 import runValidataon from "../validators/index.js";
@@ -24,5 +25,6 @@ userRouter.post(
     processRegister
 );
 userRouter.post("/verify", activateAccount);
+userRouter.put("/:id", upload.single("image"), updateUserById);
 
 export default userRouter;

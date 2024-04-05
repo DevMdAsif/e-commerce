@@ -1,6 +1,6 @@
-const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
+const MAX_FILE_SIZE = 6 * 1024 * 1024; // 2MB
 
-const ALLOWED_FILE_TYPES = ["jpeg", "png", "jpg"];
+const ALLOWED_FILE_TYPES = ["image/jpeg", "image/png", "image/jpg"];
 
 const UPLOAD_PATH = "src/public/images/users";
 

@@ -7,6 +7,7 @@ import createJWT from "../helper/createJWT.js";
 import { clientUrl, jwt_Activation_Key } from "../serect.js";
 import emailWithNodeMailer from "../helper/email.js";
 import jwt from "jsonwebtoken";
+import { MAX_FILE_SIZE } from "../config/config.js";
 
 const getUsers = async (req, res, next) => {
     try {
@@ -157,4 +158,55 @@ const activateAccount = async (req, res, next) => {
     }
 };
 
-export { getUsers, getUser, deleteUser, processRegister, activateAccount };
+const updateUserById = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+
+        const options = { password: 0 };
+        await findWithId(User, id, options);
+
+        let update = {};
+
+        for (let key in req.body) {
+            if (["name", "password", "phone", "address"].includes(key)) {
+                update[key] = req.body[key];
+            }
+        }
+
+        const image = req.file;
+        console.log("image", req.body, image);
+        if (image) {
+            if (image.size > MAX_FILE_SIZE) {
+                throw createError(400, "File size is too large");
+            }
+            update.image = image;
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(id, update, {
+            new: true,
+            runValidators: true,
+            context: "query",
+        });
+
+        if (!updatedUser) {
+            throw createError(404, "User not found");
+        }
+
+        return successResponse(res, {
+            statusCode: 200,
+            message: "User updated successfully",
+            payload: updatedUser,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export {
+    getUsers,
+    getUser,
+    deleteUser,
+    processRegister,
+    activateAccount,
+    updateUserById,
+};
