@@ -35,7 +35,7 @@ const handleLogin = async (req, res, next) => {
             });
         }
 
-        const token = createJWT({ userId: user._id }, jwt_Access_Key, "15m");
+        const token = createJWT({ user }, jwt_Access_Key, "15m");
 
         res.cookie("token", token, {
             httpOnly: true,

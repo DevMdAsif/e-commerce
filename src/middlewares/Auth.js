@@ -19,7 +19,8 @@ const isLoggedIn = (req, res, next) => {
                 "Unauthorized Access! Please login to continue."
             );
         }
-        req.userId = decudeToken.userId;
+        console.log(decudeToken);
+        req.user = decudeToken;
         next();
     } catch (error) {
         return next(error);
@@ -37,4 +38,16 @@ const isLoggedOut = (req, res, next) => {
     }
 };
 
-export { isLoggedIn, isLoggedOut };
+const isAdmin = (req, res, next) => {
+    try {
+        const { user } = req.user;
+        if (!user.isAdmin) {
+            throw createError(403, "Forbidden Access! Admin only allowed.");
+        }
+        next();
+    } catch (error) {
+        next(error);
+    }
+};
+
+export { isLoggedIn, isLoggedOut, isAdmin };

@@ -10,12 +10,12 @@ import {
 } from "../controllers/userController.js";
 import validateUserRegistration from "../validators/auth.js";
 import runValidataon from "../validators/index.js";
-import { isLoggedIn, isLoggedOut } from "../middlewares/Auth.js";
+import { isAdmin, isLoggedIn, isLoggedOut } from "../middlewares/Auth.js";
 const userRouter = express.Router();
 
 // user routes : /api/users
 
-userRouter.get("/", isLoggedIn, getUsers);
+userRouter.get("/", isLoggedIn, isAdmin, getUsers);
 userRouter.get("/:id", isLoggedIn, getUser);
 userRouter.delete("/:id", isLoggedIn, deleteUser);
 userRouter.post(
