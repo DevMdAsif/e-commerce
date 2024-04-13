@@ -20,9 +20,7 @@ const storage = multer.diskStorage({
 });
 
 const fileFilter = (req, file, cb) => {
-    const extname = path.extname(file.originalname);
-
-    if (ALLOWED_FILE_TYPES.includes(extname.slice(1))) {
+    if (ALLOWED_FILE_TYPES.includes(file.mimetype)) {
         cb(null, true);
     } else {
         cb(new Error("Invalid file type"), false);

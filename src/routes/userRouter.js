@@ -24,7 +24,7 @@ userRouter.post(
     runValidataon,
     processRegister
 );
-userRouter.post("/verify", activateAccount);
+userRouter.post("/activate", activateAccount);
 userRouter.put("/:id", upload.single("image"), updateUserById);
 
 export default userRouter;

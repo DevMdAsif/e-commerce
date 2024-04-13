@@ -8,6 +8,7 @@ import seedRouter from "./routes/seedRouter.js";
 import { errorResponse } from "./controllers/responseController.js";
 import bodyParser from "body-parser";
 import helmet from "helmet";
+import authRouter from "./routes/authRouter.js";
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/users", userRouter);
+app.use("/api/auth", authRouter);
 app.use("/api/seed", seedRouter);
 
 // client error handling middleware

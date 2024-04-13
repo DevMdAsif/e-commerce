@@ -1,4 +1,4 @@
-const MAX_FILE_SIZE = 6 * 1024 * 1024; // 2MB
+const MAX_FILE_SIZE = 6 * 1024 * 1024; //6mb
 
 const ALLOWED_FILE_TYPES = ["image/jpeg", "image/png", "image/jpg"];
 
