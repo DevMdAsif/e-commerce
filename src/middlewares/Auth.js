@@ -26,4 +26,15 @@ const isLoggedIn = (req, res, next) => {
     }
 };
 
-export { isLoggedIn };
+const isLoggedOut = (req, res, next) => {
+    try {
+        const token = req.cookies.token;
+
+        if (token) throw createError(401, "user already exist");
+        next();
+    } catch (error) {
+        next(error);
+    }
+};
+
+export { isLoggedIn, isLoggedOut };
