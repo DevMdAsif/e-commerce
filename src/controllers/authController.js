@@ -56,4 +56,16 @@ const handleLogin = async (req, res, next) => {
     }
 };
 
-export { handleLogin };
+const handleLogOut = async (req, res, next) => {
+    try {
+        res.clearCookie("token");
+        return successResponse(res, {
+            statusCode: 200,
+            message: "Logout successful",
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+export { handleLogin, handleLogOut };
