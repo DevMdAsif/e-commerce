@@ -8,6 +8,7 @@ const MONGODB_URL =
     process.env.MONGODBATLAS_URL || "mongodb://localhost:27017/e-commerce";
 
 const jwt_Activation_Key = process.env.jwt_Activation_Key;
+const jwt_Access_Key = process.env.jwt_Access_Key;
 
 const smtpUsername = process.env.SMTP_USERNAME || "";
 const smtpPassword = process.env.SMTP_PASSWORD || "";
@@ -19,6 +20,7 @@ export {
     MONGODB_URL,
     defaultImage,
     jwt_Activation_Key,
+    jwt_Access_Key,
     smtpUsername,
     smtpPassword,
     clientUrl,

@@ -2,7 +2,7 @@ import User from "../models/userModel.js";
 import bcrypt from "bcryptjs";
 import { successResponse } from "./responseController.js";
 import createJWT from "../helper/createJWT.js";
-import { jwt_Activation_Key } from "../serect.js";
+import { jwt_Access_Key } from "../serect.js";
 
 const handleLogin = async (req, res, next) => {
     try {
@@ -35,14 +35,10 @@ const handleLogin = async (req, res, next) => {
             });
         }
 
-        const token = createJWT(
-            { userId: user._id },
-            jwt_Activation_Key,
-            "15m"
-        );
+        const token = createJWT({ userId: user._id }, jwt_Access_Key, "15m");
 
         res.cookie("token", token, {
-            http: true,
+            httpOnly: true,
             maxAge: 15 * 60 * 1000,
             sameSite: "none",
         });

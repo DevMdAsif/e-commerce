@@ -56,7 +56,7 @@ const getUsers = async (req, res, next) => {
 
 const getUser = async (req, res, next) => {
     try {
-        const id = req.params.id;
+        const id = req.userId;
         const options = { password: 0 };
         const user = await findWithId(User, id, options);
 

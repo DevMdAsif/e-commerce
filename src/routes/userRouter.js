@@ -10,13 +10,14 @@ import {
 } from "../controllers/userController.js";
 import validateUserRegistration from "../validators/auth.js";
 import runValidataon from "../validators/index.js";
+import { isLoggedIn } from "../middlewares/Auth.js";
 const userRouter = express.Router();
 
 // user routes : /api/users
 
-userRouter.get("/", getUsers);
-userRouter.get("/:id", getUser);
-userRouter.delete("/:id", deleteUser);
+userRouter.get("/", isLoggedIn, getUsers);
+userRouter.get("/:id", isLoggedIn, getUser);
+userRouter.delete("/:id", isLoggedIn, deleteUser);
 userRouter.post(
     "/process-register",
     upload.single("image"),

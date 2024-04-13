@@ -9,6 +9,7 @@ import { errorResponse } from "./controllers/responseController.js";
 import bodyParser from "body-parser";
 import helmet from "helmet";
 import authRouter from "./routes/authRouter.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use(morgan("dev"));
 app.use(cors());
 app.use(limiter);
 app.use(helmet());
+app.use(cookieParser());
 
 app.get("/", (req, res) => {
     res.send("Hello World");
