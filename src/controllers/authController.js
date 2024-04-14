@@ -37,6 +37,9 @@ const handleLogin = async (req, res, next) => {
 
         const token = createJWT({ user }, jwt_Access_Key, "15m");
 
+        const userWithoutPassword = user.toObject();
+        delete userWithoutPassword.password;
+
         res.cookie("token", token, {
             httpOnly: true,
             maxAge: 15 * 60 * 1000,
@@ -45,7 +48,7 @@ const handleLogin = async (req, res, next) => {
         return successResponse(res, {
             statusCode: 200,
             message: "Login successful",
-            payload: { user },
+            payload: userWithoutPassword,
         });
     } catch (error) {
         next(error);

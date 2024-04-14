@@ -26,4 +26,16 @@ const validateUserRegistration = [
     body("image").optional().isString().withMessage("Image must be a string"),
 ];
 
-export default validateUserRegistration;
+const validateUserLogin = [
+    body("email", "Email is required")
+        .trim()
+        .notEmpty()
+        .isEmail()
+        .withMessage("Email is invalid"),
+    body("password", "Password is required")
+        .notEmpty()
+        .isLength({ min: 8 })
+        .withMessage("Password must be at least 8 characters"),
+];
+
+export { validateUserRegistration, validateUserLogin };

@@ -8,9 +8,9 @@ import {
     processRegister,
     updateUserById,
 } from "../controllers/userController.js";
-import validateUserRegistration from "../validators/auth.js";
 import runValidataon from "../validators/index.js";
 import { isAdmin, isLoggedIn, isLoggedOut } from "../middlewares/Auth.js";
+import { validateUserRegistration } from "../validators/auth.js";
 const userRouter = express.Router();
 
 // user routes : /api/users
