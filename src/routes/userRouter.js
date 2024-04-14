@@ -5,6 +5,8 @@ import {
     deleteUser,
     getUser,
     getUsers,
+    handleBanUserById,
+    handleUnbanUserById,
     processRegister,
     updateUserById,
 } from "../controllers/userController.js";
@@ -28,5 +30,7 @@ userRouter.post(
 );
 userRouter.post("/activate", isLoggedIn, activateAccount);
 userRouter.put("/:id", upload.single("image"), isLoggedIn, updateUserById);
+userRouter.put("/ban-user/:id", isLoggedIn, isAdmin, handleBanUserById);
+userRouter.put("/unben-user/:id", isLoggedIn, isAdmin, handleUnbanUserById);
 
 export default userRouter;

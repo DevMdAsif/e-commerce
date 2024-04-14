@@ -19,7 +19,7 @@ const isLoggedIn = (req, res, next) => {
                 "Unauthorized Access! Please login to continue."
             );
         }
-        console.log(decudeToken);
+
         req.user = decudeToken;
         next();
     } catch (error) {
