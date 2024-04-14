@@ -8,6 +8,7 @@ import { clientUrl, jwt_Activation_Key } from "../serect.js";
 import emailWithNodeMailer from "../helper/email.js";
 import jwt from "jsonwebtoken";
 import { MAX_FILE_SIZE } from "../config/config.js";
+import bcrypt from "bcryptjs";
 
 const getUsers = async (req, res, next) => {
     try {
@@ -260,6 +261,36 @@ const handleUnbanUserById = async (req, res, next) => {
     }
 };
 
+const updatePassword = async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const { oldPassword, newPassword } = req.body;
+
+        const user = await User.findById(id);
+
+        if (!user) {
+            throw createError(404, "User not found");
+        }
+
+        const isMatch = await bcrypt.compare(oldPassword, user.password);
+
+        if (!isMatch) {
+            throw createError(400, "Old password is incorrect");
+        }
+
+        user.password = newPassword;
+        await user.save();
+
+        return successResponse(res, {
+            statusCode: 200,
+            message: "User was update successfully",
+            payload: user,
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
 export {
     getUsers,
     getUser,
@@ -269,4 +300,5 @@ export {
     updateUserById,
     handleBanUserById,
     handleUnbanUserById,
+    updatePassword,
 };

@@ -8,6 +8,7 @@ import {
     handleBanUserById,
     handleUnbanUserById,
     processRegister,
+    updatePassword,
     updateUserById,
 } from "../controllers/userController.js";
 import runValidataon from "../validators/index.js";
@@ -32,5 +33,6 @@ userRouter.post("/activate", isLoggedIn, activateAccount);
 userRouter.put("/:id", upload.single("image"), isLoggedIn, updateUserById);
 userRouter.put("/ban-user/:id", isLoggedIn, isAdmin, handleBanUserById);
 userRouter.put("/unben-user/:id", isLoggedIn, isAdmin, handleUnbanUserById);
+userRouter.put("/update-password/:id", isLoggedIn, updatePassword);
 
 export default userRouter;
