@@ -1,5 +1,9 @@
 import express from "express";
-import { handleLogOut, handleLogin } from "../controllers/authController.js";
+import {
+    handleLogOut,
+    handleLogin,
+    handleRefreshToken,
+} from "../controllers/authController.js";
 import { isLoggedIn, isLoggedOut } from "../middlewares/Auth.js";
 import { validateUserLogin } from "../validators/auth.js";
 import runValidataon from "../validators/index.js";
@@ -13,6 +17,8 @@ authRouter.post(
     isLoggedOut,
     handleLogin
 );
+authRouter.get("/refresh-token", handleRefreshToken);
+
 authRouter.post("/logout", isLoggedIn, handleLogOut);
 
 export default authRouter;

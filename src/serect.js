@@ -9,6 +9,7 @@ const MONGODB_URL =
 
 const jwt_Activation_Key = process.env.jwt_Activation_Key;
 const jwt_Access_Key = process.env.jwt_Access_Key;
+const jwt_Refresh_Key = process.env.jwt_Refresh_Key;
 
 const smtpUsername = process.env.SMTP_USERNAME || "";
 const smtpPassword = process.env.SMTP_PASSWORD || "";
@@ -24,4 +25,5 @@ export {
     smtpUsername,
     smtpPassword,
     clientUrl,
+    jwt_Refresh_Key,
 };
