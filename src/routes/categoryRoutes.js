@@ -2,6 +2,7 @@ import express from "express";
 import {
     createCategory,
     getCategories,
+    updateCategory,
 } from "../controllers/categoryController.js";
 import runValidataon from "../validators/index.js";
 import { isAdmin, isLoggedIn } from "../middlewares/Auth.js";
@@ -20,5 +21,13 @@ categoryRouter.post(
     createCategory
 );
 categoryRouter.get("/", getCategories);
+categoryRouter.put(
+    "/:slug",
+    isLoggedIn,
+    isAdmin,
+    validateCategory,
+    runValidataon,
+    updateCategory
+);
 
 export default categoryRouter;
