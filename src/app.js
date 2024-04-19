@@ -10,6 +10,7 @@ import bodyParser from "body-parser";
 import helmet from "helmet";
 import authRouter from "./routes/authRouter.js";
 import cookieParser from "cookie-parser";
+import categoryRouter from "./routes/categoryRoutes.js";
 
 const app = express();
 
@@ -37,6 +38,7 @@ app.get("/", (req, res) => {
 app.use("/api/users", userRouter);
 app.use("/api/auth", authRouter);
 app.use("/api/seed", seedRouter);
+app.use("/api/categorys", categoryRouter);
 
 // client error handling middleware
 
