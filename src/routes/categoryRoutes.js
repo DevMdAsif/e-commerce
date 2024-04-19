@@ -1,6 +1,7 @@
 import express from "express";
 import {
     createCategory,
+    deletCategory,
     getCategories,
     updateCategory,
 } from "../controllers/categoryController.js";
@@ -29,5 +30,7 @@ categoryRouter.put(
     runValidataon,
     updateCategory
 );
+
+categoryRouter.delete("/:slug", isLoggedIn, isAdmin, deletCategory);
 
 export default categoryRouter;

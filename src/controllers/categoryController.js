@@ -23,6 +23,7 @@ const createCategory = async (req, res, next) => {
 const getCategories = async (req, res, next) => {
     try {
         const category = await Category.find({}).select("name slug");
+
         if (!category) {
             return next({
                 message: "Categories not found",
@@ -33,7 +34,7 @@ const getCategories = async (req, res, next) => {
         return successResponse(res, {
             statusCode: 200,
             success: true,
-            payload: categories,
+            payload: category,
         });
     } catch (error) {
         return next(error);
@@ -71,4 +72,26 @@ const updateCategory = async (req, res, next) => {
     }
 };
 
-export { createCategory, getCategories, updateCategory };
+const deletCategory = async (req, res, next) => {
+    try {
+        const slug = req.params.slug;
+
+        const deletedCategory = await Category.findOneAndDelete({ slug });
+
+        if (!deletedCategory) {
+            return next({
+                message: "Category not found",
+                statusCode: 404,
+            });
+        }
+
+        return successResponse(res, {
+            success: true,
+            message: "Category deleted successfully",
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+export { createCategory, getCategories, updateCategory, deletCategory };
