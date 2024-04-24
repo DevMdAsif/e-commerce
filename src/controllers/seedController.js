@@ -22,10 +22,7 @@ const seedUser = async (req, res, next) => {
 
 const seedProduct = async (req, res, next) => {
     try {
-        console.log(products);
         await Product.deleteMany({});
-
-        console.log(products);
 
         const addProduct = await Product.insertMany(products);
 

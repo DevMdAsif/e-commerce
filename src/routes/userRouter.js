@@ -1,5 +1,5 @@
 import express from "express";
-import upload from "../middlewares/uploadfile.js";
+import { uploadUserImage } from "../middlewares/uploadfile.js";
 import {
     activateAccount,
     deleteUser,
@@ -23,14 +23,19 @@ userRouter.get("/:id", isLoggedIn, getUser);
 userRouter.delete("/:id", isLoggedIn, deleteUser);
 userRouter.post(
     "/process-register",
-    upload.single("image"),
+    uploadUserImage.single("image"),
     isLoggedOut,
     validateUserRegistration,
     runValidataon,
     processRegister
 );
 userRouter.post("/activate", isLoggedIn, activateAccount);
-userRouter.put("/:id", upload.single("image"), isLoggedIn, updateUserById);
+userRouter.put(
+    "/:id",
+    uploadUserImage.single("image"),
+    isLoggedIn,
+    updateUserById
+);
 userRouter.put("/ban-user/:id", isLoggedIn, isAdmin, handleBanUserById);
 userRouter.put("/unben-user/:id", isLoggedIn, isAdmin, handleUnbanUserById);
 userRouter.put("/update-password/:id", isLoggedIn, updatePassword);

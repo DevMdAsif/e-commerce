@@ -4,4 +4,11 @@ const ALLOWED_FILE_TYPES = ["image/jpeg", "image/png", "image/jpg"];
 
 const UPLOAD_PATH = "src/public/images/users";
 
-export { MAX_FILE_SIZE, ALLOWED_FILE_TYPES, UPLOAD_PATH };
+const UPLOAD_PRODUCT_IMAGE_PATH = "src/public/images/products";
+
+export {
+    MAX_FILE_SIZE,
+    ALLOWED_FILE_TYPES,
+    UPLOAD_PATH,
+    UPLOAD_PRODUCT_IMAGE_PATH,
+};
